@@ -15,9 +15,7 @@ public final class ClickListener implements Listener {
         ItemStack clicked = event.getCurrentItem();
         Inventory inventory = event.getInventory();
         if (inventory.getName().equals(InvCtmr.$owner.getName())) { 
-            if (clicked.getType() == Material.STAINED_GLASS_PANE) { 
-                event.setCancelled(true); 
-            }
+            event.setCancelled(true);
         }
     }
 }

@@ -32,13 +32,23 @@ public class InvCtmr extends JavaPlugin {
     public void onDisable() {
        saveConfig();
     }
+    
+    public static ItemStack mmai(Material type, int amount, short dmg, String name) {
+    	ItemStack item = new ItemStack(type, amount, dmg);
+    	setName(item,name);
+    	return item;
+    }
+    
+    public static ItemStack setName(ItemStack items, String name){
+        ItemMeta meta = items.getItemMeta();
+        meta.setDisplayName(name);
+        items.setItemMeta(meta);
+        return items;
+    }
    
     public static Inventory $owner = Bukkit.createInventory(null, 45, "Owner Interface"); {
     	for(int x = 0; x < 45; x = x + 1) {
-    		ItemStack blank = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
-    		ItemMeta cm = blank.getItemMeta();
-    		cm.setDisplayName("");
-    		blank.setItemMeta(cm);
+    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15),"");
     		$owner.setItem(x, blank);
     	}
     }
