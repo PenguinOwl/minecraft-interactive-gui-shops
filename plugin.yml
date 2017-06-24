@@ -1,0 +1,11 @@
+main: tld.plugin.migs.InvCtmr
+name: MIGS
+version: 0.1
+author: PenguinOwl
+description: An Ecomomy plugin that allows player to make easy shops from both signs and chests
+commands:
+   masterinv:
+      description: This is a debug command.
+      usage: /mibsmasterinv
+      permission: 
+      permission-message: You don't have <permission>
