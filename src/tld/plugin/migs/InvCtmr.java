@@ -14,6 +14,7 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 
+@SuppressWarnings("unused")
 public class InvCtmr extends JavaPlugin {
 
 	private final ClickListener clickListener = new ClickListener();
