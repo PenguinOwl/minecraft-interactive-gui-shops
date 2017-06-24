@@ -14,7 +14,7 @@ public final class ClickListener implements Listener {
     public void someoneKnocked(InventoryClickEvent event) {
         ItemStack clicked = event.getCurrentItem();
         Inventory inventory = event.getClickedInventory();
-        if (inventory.getName().equals(InvCtmr.$owner.getName())) { 
+        if (inventory.getName().equals(InvCtmr.createOwnerInventory(0,0,0,0,true).getName())) { 
             event.setCancelled(true);
         }
     }

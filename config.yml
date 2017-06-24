@@ -1,0 +1,10 @@
+shops:
+  0:
+    0:
+      0:
+        owner: PenguinOwl
+        price: 10
+        filter: true
+        buy: true
+        alerts: false
+        
