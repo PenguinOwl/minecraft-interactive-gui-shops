@@ -48,7 +48,7 @@ public class InvCtmr extends JavaPlugin {
    
     public static Inventory $owner = Bukkit.createInventory(null, 45, "Owner Interface"); {
     	for(int x = 0; x < 45; x = x + 1) {
-    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15),"");
+    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
     		$owner.setItem(x, blank);
     	}
     }

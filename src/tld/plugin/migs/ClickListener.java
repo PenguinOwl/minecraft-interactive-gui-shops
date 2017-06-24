@@ -13,7 +13,7 @@ public final class ClickListener implements Listener {
     @EventHandler
     public void someoneKnocked(InventoryClickEvent event) {
         ItemStack clicked = event.getCurrentItem();
-        Inventory inventory = event.getInventory();
+        Inventory inventory = event.getClickedInventory();
         if (inventory.getName().equals(InvCtmr.$owner.getName())) { 
             event.setCancelled(true);
         }
