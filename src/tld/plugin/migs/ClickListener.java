@@ -2,6 +2,7 @@ package tld.plugin.migs;
 import org.bukkit.event.Listener;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -14,7 +15,8 @@ public final class ClickListener implements Listener {
     public void someoneKnocked(InventoryClickEvent event) {
         ItemStack clicked = event.getCurrentItem();
         Inventory inventory = event.getClickedInventory();
-        if (inventory.getName().equals(InvCtmr.createOwnerInventory(0,0,0,0,true).getName())) { 
+        Player player = (Player) event.getWhoClicked();
+        if (inventory.getName().equals(InvCtmr.createOwnerInventory(player.getWorld(),0,0,0,0,true).getName())) { 
             event.setCancelled(true);
         }
     }
