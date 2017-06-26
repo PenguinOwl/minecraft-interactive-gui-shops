@@ -76,11 +76,11 @@ public class InvManagement {
     		Chest cht = (Chest) b.getState();
     		Inventory cinv = cht.getBlockInventory();
     		String name = null;
-    		Material c = null;
+    		ItemStack c = null;
     		for (int scan = 0; scan < 27; scan++) {
     			if ((cinv.getItem(scan) == null || c != null)) {
     			} else {
-    				c = cinv.getItem(scan).getType();
+    				c = cinv.getItem(scan);
     			}
     		}
     		ItemStack[] inv = cinv.getContents();
@@ -88,7 +88,7 @@ public class InvManagement {
     	    int count = 0;
     	    for(int i = 0; i < inv.length; i++) {
     	        if(inv[i] != null){
-    	            if(inv[i].getType() == c) {
+    	            if(inv[i].isSimilar(c)) {
     	                int temp = inv[i].getAmount();
     	                count= count + temp;
     	            }
@@ -167,7 +167,6 @@ public class InvManagement {
     	}
     	if (!suc) {
     		ch.setContents(backup);
-    		Bukkit.broadcastMessage("reset");
     	}
     	return suc;
     }
