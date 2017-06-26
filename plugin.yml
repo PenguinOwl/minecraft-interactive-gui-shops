@@ -3,6 +3,7 @@ name: MIGS
 version: 0.1
 author: PenguinOwl
 description: An Ecomomy plugin that allows player to make easy shops from both signs and chests
+depends: [Vault]
 commands:
    masterinv:
       description: This is a debug command.
