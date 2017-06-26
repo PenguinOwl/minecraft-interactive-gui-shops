@@ -41,7 +41,7 @@ public final class ClickListener implements Listener {
         int y = loc.getBlockY();
         int z = loc.getBlockZ();
     	String configloc = "shops."+String.valueOf(w)+"."+String.valueOf(x)+"."+String.valueOf(y)+"."+String.valueOf(z);
-        if (inventory.getName().equals(InvManagement.createOwnerInventory(player.getWorld(),0,0,0).getName())) { 
+        if (inventory.getName().equals("Owner Interface")) { 
             event.setCancelled(true);
             if (slot == 28) {
             	plugin.getConfig().set(configloc+".price", plugin.getConfig().getInt(configloc+".price")-1);
