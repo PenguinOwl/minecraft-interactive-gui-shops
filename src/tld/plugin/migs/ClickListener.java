@@ -69,9 +69,8 @@ public final class ClickListener implements Listener {
         	Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
             event.setCancelled(true);
             if (slot == 3 && clicked.getType() != Material.BARRIER) {
-            	player.sendMessage("HF");
             	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")) {
-                	Boolean work = InvManagement.removeItems(clicked, 1, chest);player.sendMessage("HL");
+                	Boolean work = InvManagement.removeItems(clicked, 1, chest);
                 	if (work) {
             		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price"));
             		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price"));
@@ -80,9 +79,8 @@ public final class ClickListener implements Listener {
             	}
             }
             if (slot == 4 && clicked.getType() != Material.STAINED_GLASS_PANE) {
-            	player.sendMessage("HF");
             	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")*8) {
-                	Boolean work = InvManagement.removeItems(clicked, 8, chest);player.sendMessage("HL");
+                	Boolean work = InvManagement.removeItems(clicked, 8, chest);
                 	if (work) {
             		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
             		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
@@ -91,9 +89,8 @@ public final class ClickListener implements Listener {
             	}
             }
             if (slot == 5 && clicked.getType() != Material.STAINED_GLASS_PANE) {
-            	player.sendMessage("HF");
             	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")*64) {
-                	Boolean work = InvManagement.removeItems(clicked, 64, chest);player.sendMessage("HL");
+                	Boolean work = InvManagement.removeItems(clicked, 64, chest);
                 	if (work) {
             		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*64);
             		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*64);

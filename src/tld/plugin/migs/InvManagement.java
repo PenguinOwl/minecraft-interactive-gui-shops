@@ -146,17 +146,13 @@ public class InvManagement {
     	Boolean suc = true;
     	ItemStack c2 = null;
     	ItemStack k = null;
-    	Bukkit.broadcastMessage("boop");
     	fail:
     	for (int sd = 0; sd != amount; sd++) {
-        	Bukkit.broadcastMessage("l1");
     		if1:
     		for (int c = 0; c < 27; c++) {
     			if (ch.getItem(c) != null) {
-    				Bukkit.broadcastMessage("l2");
     				c2 = ch.getItem(c).clone();
     				if (c1.isSimilar(c2)) {
-    					Bukkit.broadcastMessage("l3");
     					k = ch.getItem(c).clone();
     					k.setAmount(ch.getItem(c).getAmount()-1);
     					ch.setItem(c, k);
@@ -164,7 +160,6 @@ public class InvManagement {
     				}
     			}
     			if (c == 26) {
-    				Bukkit.broadcastMessage("l4");
     				suc = false;
     				break fail;
     			}

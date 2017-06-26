@@ -1,6 +1,6 @@
 main: tld.plugin.migs.InvCtmr
 name: MIGS
-version: 0.1
+version: 1.0
 author: PenguinOwl
 description: An Ecomomy plugin that allows player to make easy shops from both signs and chests
 depends: [Vault]
