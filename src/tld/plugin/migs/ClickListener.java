@@ -10,6 +10,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -61,6 +62,13 @@ public final class ClickListener implements Listener {
             if (slot == 12) {
             	plugin.getConfig().set(configloc+".price", plugin.getConfig().getInt(configloc+".price")+50);
             }
+            if (slot == 24) {
+            	if (plugin.getConfig().getBoolean(configloc+".buy")) {
+            		plugin.getConfig().set(configloc+".buy", false);
+            	} else {
+            		plugin.getConfig().set(configloc+".buy", true);
+            	}
+            }
             inventory = InvManagement.createOwnerInventory(w,x,y,z);
             player.closeInventory();
             player.openInventory(inventory);
@@ -98,7 +106,47 @@ public final class ClickListener implements Listener {
                 	}
             	}
             }
+            
             inventory = InvManagement.createCustomerInventory(w,x,y,z);
+            player.closeInventory();
+            player.openInventory(inventory);
+        }
+        if (inventory.getName().equals("Seller Interface")) { 
+        	Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
+            Chest chs = (Chest) chest.getState();
+        	event.setCancelled(true);
+            if (slot == 3 && clicked.getType() != Material.BARRIER) {
+            	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")) {
+                	Boolean work = InvManagement.removeItems(clicked, 1, chest);
+                	if (work) {
+            		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price"));
+            		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price"));
+            		chs.getBlockInventory().addItem(clicked);
+                	}
+            	}
+            }
+            if (slot == 4 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+            	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")*8) {
+                	Boolean work = InvManagement.removeItems(clicked, 8, chest);
+                	if (work) {
+            		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
+            		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
+            		chs.getBlockInventory().addItem(clicked);
+                	}
+            	}
+            }
+            if (slot == 5 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+            	if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")*64) {
+                	Boolean work = InvManagement.removeItems(clicked, 64, chest);
+                	if (work) {
+            		InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*64);
+            		InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*64);
+            		chs.getBlockInventory().addItem(clicked);
+                	}
+            	}
+            }
+            
+            inventory = InvManagement.createSellerInventory(w,x,y,z,player);
             player.closeInventory();
             player.openInventory(inventory);
         }

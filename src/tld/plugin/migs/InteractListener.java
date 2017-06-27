@@ -72,7 +72,11 @@ public final class InteractListener implements Listener {
         						player.openInventory(InvManagement.createOwnerInventory(blockw, blockx, blocky, blockz));
         					}
         				} else {
-        					player.openInventory(InvManagement.createCustomerInventory(blockw, blockx, blocky, blockz));
+        					if (plugin.getConfig().getBoolean(configloc+".buy")) {
+        						player.openInventory(InvManagement.createCustomerInventory(blockw, blockx, blocky, blockz));
+        					} else {
+        						player.openInventory(InvManagement.createSellerInventory(blockw, blockx, blocky, blockz, player));
+        					}
         				}
         			} else {
         				if (event.getMaterial()==Material.WOOD_HOE) {

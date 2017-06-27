@@ -57,8 +57,9 @@ public class InvManagement {
     	temp.setItem(11, mmai(Material.SULPHUR, 10, (short) 0, ChatColor.RESET + "+$10"));
     	temp.setItem(12, mmai(Material.SULPHUR, 50, (short) 0, ChatColor.RESET + "+$50"));
     	temp.setItem(20, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "$" + String.valueOf(plugin.getConfig().getInt(configloc+".price"))));
-    	temp.setItem(5, mmai(Material.WEB, 1, (short) 0, ChatColor.RESET + "Filter?"));
-    	temp.setItem(14, tfwool(plugin.getConfig().getBoolean(configloc+".filter")));
+    	temp.setItem(24, sbwool(plugin.getConfig().getBoolean(configloc+".buy")));
+//    	temp.setItem(5, mmai(Material.WEB, 1, (short) 0, ChatColor.RESET + "Filter?"));
+//    	temp.setItem(14, tfwool(plugin.getConfig().getBoolean(configloc+".filter")));
 		return temp;
     }
     
@@ -104,6 +105,20 @@ public class InvManagement {
 	    return base;
     }
     
+    public static ItemStack fetchCurItemp(Player p) {
+    	ItemStack base = null;
+    		Inventory cinv = p.getInventory();
+    		String name = null;
+    		ItemStack c = null;
+    		for (int scan = 0; scan < 36; scan++) {
+    			if ((cinv.getItem(scan) == null || c != null)) {
+    			} else {
+    				c = cinv.getItem(scan);
+    			}
+    		}
+	    return base;
+    }
+    
     public static ItemStack taa(ItemStack is, int amount) {
     	ItemStack kg = is.clone();
     	kg.setAmount(amount);
@@ -114,7 +129,7 @@ public class InvManagement {
     	String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
     	Inventory temp = Bukkit.createInventory(null, 9, "Customer Interface"); 
     	for(int x = 0; x < 9; x = x + 1) {
-    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
+    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4)," ");
     		temp.setItem(x, blank);
     	}
     	Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
@@ -130,11 +145,35 @@ public class InvManagement {
     	return temp;
     }
     
+    public static Inventory createSellerInventory(World ilw, int ilx, int ily, int ilz, Player player) {
+    	String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
+    	Inventory temp = Bukkit.createInventory(null, 9, "Seller Interface"); 
+    	for(int x = 0; x < 9; x = x + 1) {
+    		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10)," ");
+    		temp.setItem(x, blank);
+    	}
+    	Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
+    	ItemStack selling = fetchCurItemp(player);
+    	temp.setItem(4, taa(selling, 8));
+    	temp.setItem(5, taa(selling, 64));
+    	temp.setItem(3, taa(selling, 1));
+    	temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: $" + String.valueOf(plugin.getConfig().getString(configloc + ".price"))));
+    	return temp;
+    }
+    
     public static ItemStack tfwool(boolean bln) {
     	if (bln) {
     		return mmai(Material.WOOL, 1, (short) 5, ChatColor.RESET + "" + ChatColor.GREEN + "TRUE");
     	} else {
     		return mmai(Material.WOOL, 1, (short) 14, ChatColor.RESET + "" + ChatColor.RED + "FALSE");
+    	}
+    }
+
+    public static ItemStack sbwool(boolean bln) {
+    	if (bln) {
+    		return mmai(Material.WOOL, 1, (short) 3, ChatColor.RESET + "" + ChatColor.GREEN + "BUY");
+    	} else {
+    		return mmai(Material.WOOL, 1, (short) 10, ChatColor.RESET + "" + ChatColor.RED + "SELL");
     	}
     }
     
