@@ -153,7 +153,7 @@ public class InvManagement {
     		temp.setItem(x, blank);
     	}
     	Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
-    	ItemStack selling = fetchCurItemp(player);
+    	ItemStack selling = fetchCurItem(chestloc);
     	temp.setItem(4, taa(selling, 8));
     	temp.setItem(5, taa(selling, 64));
     	temp.setItem(3, taa(selling, 1));

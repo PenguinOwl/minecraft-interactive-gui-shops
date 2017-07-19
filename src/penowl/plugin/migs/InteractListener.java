@@ -60,7 +60,7 @@ public final class InteractListener implements Listener {
         	if (event.getClickedBlock().getType() == Material.WALL_SIGN) {
         		if (event.getMaterial() != null) {
         			if (plugin.getConfig().getString(configloc+".owner") != null) {
-        				if (plugin.getConfig().getString(configloc+".owner").compareTo(player.getUniqueId().toString()) == 0) {
+        				if (plugin.getConfig().getString(configloc+".owner").compareTo(player.getUniqueId().toString()) == 0 && player.isSneaking() == false) {
         					if (event.getMaterial()==Material.WOOD_HOE) {
         						plugin.getConfig().set(configloc+".owner", null);
         						org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
