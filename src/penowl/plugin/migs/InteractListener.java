@@ -45,9 +45,9 @@ public final class InteractListener implements Listener {
 			org.bukkit.material.Sign com = (org.bukkit.material.Sign) event.getClickedBlock().getState().getData();
 			BlockFace sa = com.getAttachedFace();
 			if (sa == BlockFace.NORTH) {
-				zdif = 1;
-			} else if (sa == BlockFace.SOUTH) {
 				zdif = -1;
+			} else if (sa == BlockFace.SOUTH) {
+				zdif = 1;
 			} else if (sa == BlockFace.EAST) {
 				xdif = 1;
 			} else if (sa == BlockFace.WEST) {
