@@ -1,4 +1,4 @@
-package tld.plugin.migs;
+package penowl.plugin.migs;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -45,7 +45,7 @@ public class InvManagement {
     
     public static Inventory createOwnerInventory(World ilw, int ilx, int ily, int ilz) {
     	String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-        Inventory temp = Bukkit.createInventory(null, 45, "Owner Interface"); 
+        Inventory temp = Bukkit.createInventory(new FakeHolder(), 45, "Owner Interface"); 
     	for(int x = 0; x < 45; x = x + 1) {
     		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
     		temp.setItem(x, blank);
@@ -127,7 +127,7 @@ public class InvManagement {
     
     public static Inventory createCustomerInventory(World ilw, int ilx, int ily, int ilz) {
     	String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-    	Inventory temp = Bukkit.createInventory(null, 9, "Customer Interface"); 
+    	Inventory temp = Bukkit.createInventory(new FakeHolder(), 9, "Customer Interface"); 
     	for(int x = 0; x < 9; x = x + 1) {
     		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4)," ");
     		temp.setItem(x, blank);
@@ -147,7 +147,7 @@ public class InvManagement {
     
     public static Inventory createSellerInventory(World ilw, int ilx, int ily, int ilz, Player player) {
     	String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-    	Inventory temp = Bukkit.createInventory(null, 9, "Seller Interface"); 
+    	Inventory temp = Bukkit.createInventory(new FakeHolder(), 9, "Seller Interface"); 
     	for(int x = 0; x < 9; x = x + 1) {
     		ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10)," ");
     		temp.setItem(x, blank);
@@ -171,9 +171,9 @@ public class InvManagement {
 
     public static ItemStack sbwool(boolean bln) {
     	if (bln) {
-    		return mmai(Material.WOOL, 1, (short) 3, ChatColor.RESET + "" + ChatColor.GREEN + "BUY");
+    		return mmai(Material.WOOL, 1, (short) 4, ChatColor.RESET + "" + ChatColor.YELLOW + "BUY");
     	} else {
-    		return mmai(Material.WOOL, 1, (short) 10, ChatColor.RESET + "" + ChatColor.RED + "SELL");
+    		return mmai(Material.WOOL, 1, (short) 10, ChatColor.RESET + "" + ChatColor.DARK_PURPLE + "SELL");
     	}
     }
     

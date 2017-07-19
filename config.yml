@@ -8,8 +8,9 @@ shops:
           filter: true
           buy: true
           alerts: false
-          chestw: "lol"
+          chestw: lol
           chestx: 0
           chesty: 0
           chestz: 0
+          enabled: false
         

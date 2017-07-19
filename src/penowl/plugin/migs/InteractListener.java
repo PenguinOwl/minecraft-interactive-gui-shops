@@ -1,4 +1,4 @@
-package tld.plugin.migs;
+package penowl.plugin.migs;
 
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;

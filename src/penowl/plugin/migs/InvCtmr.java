@@ -1,4 +1,4 @@
-package tld.plugin.migs;
+package penowl.plugin.migs;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -30,6 +30,7 @@ public class InvCtmr extends JavaPlugin {
 	private final ClickListener clickListener = new ClickListener(this);
 	private final InteractListener interactListener = new InteractListener(this);
 	private final InvManagement invManagement = new InvManagement(this);
+	private final ProtectListener protectListener = new ProtectListener(this);
 	
 	public static Economy economy = null;
 	 
@@ -48,6 +49,7 @@ public class InvCtmr extends JavaPlugin {
        PluginManager pm = getServer().getPluginManager();
        pm.registerEvents(interactListener, this);
        pm.registerEvents(clickListener, this);
+       pm.registerEvents(protectListener, this);
        PluginDescriptionFile pdfFile = this.getDescription();
        getLogger().info( "A wild " + pdfFile.getName() + " version " + pdfFile.getVersion() + " appeared!" );
        setupEconomy();
