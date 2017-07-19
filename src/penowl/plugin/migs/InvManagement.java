@@ -73,7 +73,7 @@ public class InvManagement {
     public static ItemStack fetchCurItem(Location loc) {
     	Block b = loc.getBlock();
     	ItemStack base = null;
-    	if (b.getType() == Material.CHEST) {
+    	if (b.getType() == Material.CHEST||b.getType() == Material.TRAPPED_CHEST) {
     		Chest cht = (Chest) b.getState();
     		Inventory cinv = cht.getBlockInventory();
     		String name = null;

@@ -29,7 +29,7 @@ public class ProtectListener implements Listener {
 				event.getPlayer().sendMessage(ChatColor.YELLOW+"Close this shop before breaking it.");
 			}
 		}
-		if (event.getBlock().getType() == Material.CHEST) {
+		if (event.getBlock().getType() == Material.CHEST || event.getBlock().getType() == Material.TRAPPED_CHEST) {
 			Location loc = event.getBlock().getLocation();
 			for (int x = -1; x < 2; x = x + 1) {
 				for (int y = -1; y < 2; y = y + 1) {

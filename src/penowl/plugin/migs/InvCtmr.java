@@ -59,6 +59,15 @@ public class InvCtmr extends JavaPlugin {
     public void onDisable() {
        saveConfig();
     }
+    
+    public boolean onCommand(CommandSender sender, Command command, String flag, String[] args){
+        if(command.getName().equalsIgnoreCase("migs")){
+            getConfig();
+        	Bukkit.broadcastMessage(ChatColor.GREEN + "[MIGS] " + ChatColor.RESET+"Reloaded shops.");
+            return true;
+        }
+        return false;
+    }
 
 }
 

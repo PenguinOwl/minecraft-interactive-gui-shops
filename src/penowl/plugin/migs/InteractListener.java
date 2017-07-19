@@ -66,21 +66,37 @@ public final class InteractListener implements Listener {
         						org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
         						wop.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[SHOP]");
         						wop.update(true,false);
-        						player.sendMessage(InvManagement.$migs + "Shop closed.");
+        						player.sendMessage(InvManagement.$migs + "Shop destroyed.");
         						plugin.saveConfig();
+        					} else if(event.getMaterial()==Material.WOOD_SPADE) {
+        						if (plugin.getConfig().getBoolean(configloc+".enabled")) {
+        							plugin.getConfig().set(configloc+".enabled",false);
+        							org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
+            						wop.setLine(0, ChatColor.YELLOW + "" + ChatColor.BOLD + "[SHOP]");
+            						wop.update(true,false);
+            						player.sendMessage(InvManagement.$migs + "Shop closed.");
+        						} else {
+        							plugin.getConfig().set(configloc+".enabled",true);
+        							org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
+            						wop.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[SHOP]");
+            						wop.update(true,false);
+            						player.sendMessage(InvManagement.$migs + "Shop opened.");
+        						}
         					} else {
         						player.openInventory(InvManagement.createOwnerInventory(blockw, blockx, blocky, blockz));
         					}
         				} else {
-        					if (plugin.getConfig().getBoolean(configloc+".buy")) {
-        						player.openInventory(InvManagement.createCustomerInventory(blockw, blockx, blocky, blockz));
-        					} else {
-        						player.openInventory(InvManagement.createSellerInventory(blockw, blockx, blocky, blockz, player));
+        					if (plugin.getConfig().getBoolean(configloc+".enabled")) {
+        						if (plugin.getConfig().getBoolean(configloc+".buy")) {
+        							player.openInventory(InvManagement.createCustomerInventory(blockw, blockx, blocky, blockz));
+        						} else {
+        							player.openInventory(InvManagement.createSellerInventory(blockw, blockx, blocky, blockz, player));
+        						}
         					}
         				}
         			} else {
         				if (event.getMaterial()==Material.WOOD_HOE) {
-        					if (chloc.getBlock().getType()==Material.CHEST) {
+        					if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
         						player.sendMessage(InvManagement.$migs + "Creating Shop...");
         						plugin.getConfig().set(configloc+".owner", player.getUniqueId().toString());
         						plugin.getConfig().set(configloc+".price", 0);
@@ -91,6 +107,7 @@ public final class InteractListener implements Listener {
         						plugin.getConfig().set(configloc+".chestz", zdif + blockz);
         						plugin.getConfig().set(configloc+".chesty", blocky);
         						plugin.getConfig().set(configloc+".chestw", blockw.getName());
+        						plugin.getConfig().set(configloc+".enabled", true);
         						plugin.saveConfig();
         						org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
         						wop.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[SHOP]");
