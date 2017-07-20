@@ -91,8 +91,10 @@ public class InvCtmr extends JavaPlugin {
 						player.sendMessage(InvManagement.$migs+"Set config.");
 						if (args[3].compareTo("int")==0) {
 							this.getConfig().set(configloc+"."+args[1],Integer.valueOf(args[2]));
+						} else if (args[3].compareTo("dub")==0) {
+							this.getConfig().set(configloc+"."+args[1],Double.valueOf(args[2]));
 						} else {
-							this.getConfig().set(configloc+"."+args[1],args[2]);
+							this.getConfig().set(configloc+"."+args[1],String.valueOf(args[2]));
 						}
 						this.saveConfig();
 					}

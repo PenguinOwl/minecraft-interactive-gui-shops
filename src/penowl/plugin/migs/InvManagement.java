@@ -1,8 +1,14 @@
 package penowl.plugin.migs;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.UUID;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
+import org.bukkit.SkullType;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -35,6 +41,14 @@ public class InvManagement {
 		setName(item,name);
 		return item;
 	}
+	
+	public static double round(double value, int places) {
+	    if (places < 0) throw new IllegalArgumentException();
+
+	    BigDecimal bd = new BigDecimal(value);
+	    bd = bd.setScale(places, RoundingMode.HALF_UP);
+	    return bd.doubleValue();
+	}
 
 	public static ItemStack setName(ItemStack items, String name){
 		ItemMeta meta = items.getItemMeta();
@@ -50,24 +64,40 @@ public class InvManagement {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
 			temp.setItem(x, blank);
 		}
-		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "-$1"));
-		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "-$10"));
-		temp.setItem(30, mmai(Material.HOPPER, 50, (short) 0, ChatColor.RESET + "-$50"));
-		temp.setItem(10, mmai(Material.SULPHUR, 1, (short) 0, ChatColor.RESET + "+$1"));
-		temp.setItem(11, mmai(Material.SULPHUR, 10, (short) 0, ChatColor.RESET + "+$10"));
-		temp.setItem(12, mmai(Material.SULPHUR, 50, (short) 0, ChatColor.RESET + "+$50"));
-		temp.setItem(20, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "$" + String.valueOf(plugin.getConfig().getInt(configloc+".price"))));
+		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "-1"));
+		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "-10"));
+		temp.setItem(30, mmai(Material.HOPPER, 50, (short) 0, ChatColor.RESET + "-50"));
+		temp.setItem(10, mmai(Material.SULPHUR, 1, (short) 0, ChatColor.RESET + "+1"));
+		temp.setItem(11, mmai(Material.SULPHUR, 10, (short) 0, ChatColor.RESET + "+10"));
+		temp.setItem(12, mmai(Material.SULPHUR, 50, (short) 0, ChatColor.RESET + "+50"));
+		temp.setItem(20, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc+".price"))));
 		temp.setItem(24, sbwool(plugin.getConfig().getBoolean(configloc+".buy")));
 		//    	temp.setItem(5, mmai(Material.WEB, 1, (short) 0, ChatColor.RESET + "Filter?"));
 		//    	temp.setItem(14, tfwool(plugin.getConfig().getBoolean(configloc+".filter")));
 		return temp;
 	}
 
-	private ItemStack setOwner(ItemStack ad, String name) {
-		SkullMeta base = (SkullMeta) ad.getItemMeta();
-		base.setOwner(name);
-		ad.setItemMeta(base);
-		return ad;
+	public static ItemStack setOwner(String name) {
+		ItemStack skull = new ItemStack(Material.SKULL_ITEM, 1, (short) SkullType.PLAYER.ordinal());
+		SkullMeta meta = (SkullMeta) skull.getItemMeta();
+		meta.setOwner(name);
+		meta.setDisplayName(ChatColor.GREEN + "Owner: " + ChatColor.RESET + "" + name);
+		skull.setItemMeta(meta);
+		return skull;
+	}
+
+	public static String getName(String configloc) {
+		if (plugin.getConfig().getString(configloc+".owner").length() > 16) {
+			UUID kl = UUID.fromString(plugin.getConfig().getString(configloc+".owner"));
+			OfflinePlayer player = Bukkit.getOfflinePlayer(kl);
+			return player.getName();
+		} else {
+			return "Admin";
+		}
+	}
+
+	public static ItemStack head(String codc) {
+		return setOwner(getName(codc));
 	}
 
 	public static ItemStack fetchCurItem(Location loc) {
@@ -127,9 +157,9 @@ public class InvManagement {
 
 	public static Inventory createCustomerInventory(World ilw, int ilx, int ily, int ilz) {
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 9, "Customer Interface"); 
-		for(int x = 0; x < 9; x = x + 1) {
-			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4)," ");
+		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "Customer Interface"); 
+		for(int x = 0; x < 18; x = x + 1) {
+			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4),"BUY");
 			temp.setItem(x, blank);
 		}
 		Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
@@ -141,15 +171,19 @@ public class InvManagement {
 			temp.setItem(5, taa(selling, 64));
 		}
 		temp.setItem(3, taa(selling, 1));
-		temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: $" + String.valueOf(plugin.getConfig().getString(configloc + ".price"))));
+		temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price"))));
+		temp.setItem(12, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*1)));
+		temp.setItem(13, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*8)));
+		temp.setItem(14, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*64)));
+		temp.setItem(17, head(configloc));
 		return temp;
 	}
 
 	public static Inventory createSellerInventory(World ilw, int ilx, int ily, int ilz, Player player) {
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 9, "Seller Interface"); 
-		for(int x = 0; x < 9; x = x + 1) {
-			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10)," ");
+		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "Seller Interface"); 
+		for(int x = 0; x < 18; x = x + 1) {
+			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10),"SELL");
 			temp.setItem(x, blank);
 		}
 		Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
@@ -157,7 +191,11 @@ public class InvManagement {
 		temp.setItem(4, taa(selling, 8));
 		temp.setItem(5, taa(selling, 64));
 		temp.setItem(3, taa(selling, 1));
-		temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: $" + String.valueOf(plugin.getConfig().getString(configloc + ".price"))));
+		temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price"))));
+		temp.setItem(12, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*1)));
+		temp.setItem(13, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*8)));
+		temp.setItem(14, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*64)));
+		temp.setItem(17, head(configloc));
 		return temp;
 	}
 
