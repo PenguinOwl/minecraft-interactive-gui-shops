@@ -1,6 +1,6 @@
 main: penowl.plugin.migs.InvCtmr
 name: MIGS
-version: 1.4
+version: 1.5
 author: PenguinOwl
 description: An Ecomomy plugin that allows player to make easy shops from signs and chests
 depends: [Vault]
@@ -8,9 +8,11 @@ website: https://dev.bukkit.org/projects/migs
 commands:
   migs:
     description: The main MIGS command.
-    usage: /<command>
-    permission: migs.reload
+    usage: /<command> <reload|inspect|set> [value] [int|string]
+    permission: migs.main
     permission-message: You don't have <permission>
 permissions:
   migs.admin:
     description: Allows players to make admin shops.
+  migs.main:
+    description: Allows players to manually edit data.

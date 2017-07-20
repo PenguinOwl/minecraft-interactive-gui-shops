@@ -41,8 +41,11 @@ public final class ClickListener implements Listener {
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
 		int z = loc.getBlockZ();
+		Boolean nonadmin = false;
 		String configloc = "shops."+String.valueOf(w)+"."+String.valueOf(x)+"."+String.valueOf(y)+"."+String.valueOf(z);
-		Boolean nonadmin = plugin.getConfig().getString(configloc+".owner") != "admin";
+		if (inventory.getHolder() instanceof FakeHolder) {
+			nonadmin = plugin.getConfig().getString(configloc+".owner").length() > 16;
+		}
 		if (inventory.getHolder() != null) {
 			if (inventory.getName().equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
 				event.setCancelled(true);
