@@ -177,9 +177,7 @@ public class InvManagement {
     	}
     }
     
-    public static Boolean removeItems(ItemStack is, int amount, Block lk) {
-    	Chest cd = (Chest) lk.getState();
-    	Inventory ch = cd.getBlockInventory();
+    public static Boolean removeItems(ItemStack is, int amount, Inventory ch, int tick) {
     	ItemStack[] backup = ch.getContents();
     	ItemStack c1 = is.clone();
     	Boolean suc = true;
@@ -188,7 +186,7 @@ public class InvManagement {
     	fail:
     	for (int sd = 0; sd != amount; sd++) {
     		if1:
-    		for (int c = 0; c < 27; c++) {
+    		for (int c = 0; c < tick; c++) {
     			if (ch.getItem(c) != null) {
     				c2 = ch.getItem(c).clone();
     				if (c1.isSimilar(c2)) {

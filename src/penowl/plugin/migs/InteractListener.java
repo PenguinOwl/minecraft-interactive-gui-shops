@@ -80,7 +80,7 @@ public final class InteractListener implements Listener {
         						} else {
         							plugin.getConfig().set(configloc+".enabled",true);
         							org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
-            						wop.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "{SHOP}");
+            						wop.setLine(0, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "{SHOP}");
             						wop.update(true,false);
             						player.sendMessage(InvManagement.$migs + "Shop opened.");
         						}
@@ -143,7 +143,7 @@ public final class InteractListener implements Listener {
         						} else {
         							plugin.getConfig().set(configloc+".enabled",true);
         							org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
-            						wop.setLine(0, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "[SHOP]");
+            						wop.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[SHOP]");
             						wop.update(true,false);
             						player.sendMessage(InvManagement.$migs + "Shop opened.");
         						}
@@ -181,6 +181,14 @@ public final class InteractListener implements Listener {
         					}
         				}
         				if (event.getMaterial()==Material.DIAMOND_HOE && perm) {
+    						plugin.getConfig().set(configloc+".owner", null);
+    						org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
+    						wop.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "{SHOP}");
+    						wop.update(true,false);
+    						player.sendMessage(InvManagement.$migs + "Shop destroyed.");
+    						plugin.saveConfig();
+        				}
+        				if (event.getMaterial()==Material.DIAMOND_HOE && perm) {
         					if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
         						player.sendMessage(InvManagement.$migs + "Creating Shop...");
         						plugin.getConfig().set(configloc+".owner", "admin");
@@ -195,7 +203,7 @@ public final class InteractListener implements Listener {
         						plugin.getConfig().set(configloc+".enabled", true);
         						plugin.saveConfig();
         						org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
-        						wop.setLine(0, ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "{SHOP}");
+        						wop.setLine(0, ChatColor.DARK_GREEN + "" + ChatColor.BOLD + "{SHOP}");
         						wop.update(true,false);
         						player.sendMessage(InvManagement.$migs + "Shop created!");
         					}

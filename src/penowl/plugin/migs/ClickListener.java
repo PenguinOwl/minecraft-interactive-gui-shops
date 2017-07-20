@@ -75,14 +75,16 @@ public final class ClickListener implements Listener {
 				player.closeInventory();
 				player.openInventory(inventory);
 			}
-			if (inventory.getName().equals("Customer Interface")) { 
+			if (inventory.getName().equals("Customer Interface") && inventory.getHolder() instanceof FakeHolder) { 
 				Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 				event.setCancelled(true);
 				Boolean work = true;
+				Chest chs = (Chest) chest.getState();
+				Inventory sc = chs.getBlockInventory();
 				if (slot == 3 && clicked.getType() != Material.BARRIER) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")) {
 						if (nonadmin) {
-							work = InvManagement.removeItems(clicked, 1, chest);
+							work = InvManagement.removeItems(clicked, 1, sc, 27);
 						}
 						if (work) {
 							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price"));
@@ -96,7 +98,7 @@ public final class ClickListener implements Listener {
 				if (slot == 4 && clicked.getType() != Material.STAINED_GLASS_PANE) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")*8) {
 						if (nonadmin) {
-							work = InvManagement.removeItems(clicked, 8, chest);
+							work = InvManagement.removeItems(clicked, 8, sc, 27);
 						}
 						if (work) {
 							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
@@ -110,7 +112,7 @@ public final class ClickListener implements Listener {
 				if (slot == 5 && clicked.getType() != Material.STAINED_GLASS_PANE) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getInt(configloc+".price")*64) {
 						if (nonadmin) {
-							work = InvManagement.removeItems(clicked, 64, chest);
+							work = InvManagement.removeItems(clicked, 64, sc, 27);
 						}
 						if (work) {
 							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*64);
@@ -127,14 +129,14 @@ public final class ClickListener implements Listener {
 				player.openInventory(inventory);
 			}
 		}
-		if (inventory.getName().equals("Seller Interface")) { 
+		if (inventory.getName().equals("Seller Interface") && inventory.getHolder() instanceof FakeHolder) { 
 			Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 			Chest chs = (Chest) chest.getState();
 			event.setCancelled(true);
 			if (slot == 3 && clicked.getType() != Material.BARRIER) {
 				if (nonadmin) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")) {
-						Boolean work = InvManagement.removeItems(clicked, 1, chest);
+						Boolean work = InvManagement.removeItems(clicked, 1, player.getInventory(), 36);
 						if (work) {
 							InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price"));
 							if (nonadmin) {
@@ -146,69 +148,39 @@ public final class ClickListener implements Listener {
 						}
 					}
 				} else {
-					Boolean work = InvManagement.removeItems(clicked, 1, chest);
+					Boolean work = InvManagement.removeItems(clicked, 1, player.getInventory(), 36);
 					if (work) {
-						InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
-						if (nonadmin) {
-							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
-						}
-						if (nonadmin) {
-							chs.getBlockInventory().addItem(clicked);
-						}
+						InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*1);
 					}
 				}
 			}
-			if (slot == 4 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+			if (slot == 4 && clicked.getType() != Material.BARRIER) {
 				if (nonadmin) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")*8) {
-						Boolean work = InvManagement.removeItems(clicked, 8, chest);
+						Boolean work = InvManagement.removeItems(clicked, 8, player.getInventory(), 36);
 						if (work) {
 							InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
-							if (nonadmin) {
-								InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
-							}
-							if (nonadmin) {
-								chs.getBlockInventory().addItem(clicked);
-							}
 						}
 					}
 				} else {
-					Boolean work = InvManagement.removeItems(clicked, 8, chest);
+					Boolean work = InvManagement.removeItems(clicked, 8, player.getInventory(), 36);
 					if (work) {
 						InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
-						if (nonadmin) {
-							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
-						}
-						if (nonadmin) {
-							chs.getBlockInventory().addItem(clicked);
-						}
 					}
 				}
 			}
-			if (slot == 5 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+			if (slot == 5 && clicked.getType() != Material.BARRIER) {
 				if (nonadmin) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getInt(configloc+".price")*64) {
-						Boolean work = InvManagement.removeItems(clicked, 64, chest);
+						Boolean work = InvManagement.removeItems(clicked, 64, player.getInventory(), 36);
 						if (work) {
 							InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*64);
-							if (nonadmin) {
-								InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*64);
-							}
-							if (nonadmin) {
-								chs.getBlockInventory().addItem(clicked);
-							}
 						}
 					}
 				} else {
-					Boolean work = InvManagement.removeItems(clicked, 64, chest);
+					Boolean work = InvManagement.removeItems(clicked, 64, player.getInventory(), 36);
 					if (work) {
-						InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*8);
-						if (nonadmin) {
-							InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getInt(configloc+".price")*8);
-						}
-						if (nonadmin) {
-							chs.getBlockInventory().addItem(clicked);
-						}
+						InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getInt(configloc+".price")*64);
 					}
 				}
 			}
