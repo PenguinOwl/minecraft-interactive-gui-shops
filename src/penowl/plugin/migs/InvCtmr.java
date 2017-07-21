@@ -24,6 +24,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
+import penowl.plugin.migs.Updater.UpdateResult;
+import penowl.plugin.migs.Updater.UpdateType;
 
 
 @SuppressWarnings("unused")
@@ -55,6 +57,12 @@ public class InvCtmr extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info( "A wild " + pdfFile.getName() + " version " + pdfFile.getVersion() + " appeared!" );
 		setupEconomy();
+		if (this.getConfig().getBoolean("auto-update")) {
+			Updater updater = new Updater(this, 272481, this.getFile(), UpdateType.DEFAULT, true);
+			if (updater.getResult() == UpdateResult.SUCCESS) {
+			    this.getLogger().info("Downloaded " + updater.getLatestName() + ". Restart or reload your server to use.");
+			}
+		}
 	}
 
 	@Override

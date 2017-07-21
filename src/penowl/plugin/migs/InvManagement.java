@@ -2,6 +2,7 @@ package penowl.plugin.migs;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
@@ -14,8 +15,10 @@ import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
@@ -64,12 +67,14 @@ public class InvManagement {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
 			temp.setItem(x, blank);
 		}
-		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "-1"));
-		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "-10"));
-		temp.setItem(30, mmai(Material.HOPPER, 50, (short) 0, ChatColor.RESET + "-50"));
-		temp.setItem(10, mmai(Material.SULPHUR, 1, (short) 0, ChatColor.RESET + "+1"));
-		temp.setItem(11, mmai(Material.SULPHUR, 10, (short) 0, ChatColor.RESET + "+10"));
-		temp.setItem(12, mmai(Material.SULPHUR, 50, (short) 0, ChatColor.RESET + "+50"));
+		temp.setItem(2, ifbook("Prices","To change prices by major amounts,","right-click.","To change prices by minor amounts,","left-click."));
+		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-1"));
+		temp.setItem(15, ifbook("Buy/Sell","A buy shop will let players buy","the first item in the chest from you.", "A sell shop will let players sell","their items until the chest is full."));
+		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-10"));
+		temp.setItem(30, mmai(Material.HOPPER, 50, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-50"));
+		temp.setItem(10, mmai(Material.SULPHUR, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "+1"));
+		temp.setItem(11, mmai(Material.SULPHUR, 10, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "+10"));
+		temp.setItem(12, mmai(Material.SULPHUR, 50, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "+50"));
 		temp.setItem(20, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price: " + String.valueOf(plugin.getConfig().getDouble(configloc+".price"))));
 		temp.setItem(24, sbwool(plugin.getConfig().getBoolean(configloc+".buy")));
 		//    	temp.setItem(5, mmai(Material.WEB, 1, (short) 0, ChatColor.RESET + "Filter?"));
@@ -270,6 +275,21 @@ public class InvManagement {
 			ch.setContents(backup);
 		}
 		return suc;
+	}
+	
+	public static ItemStack ifbook(String name, String s1, String s2, String s3, String s4) {
+		ItemStack item = mmai(Material.BOOK, 1, (short) 0, ChatColor.RESET+""+ChatColor.AQUA+name);
+		ItemMeta meta = item.getItemMeta();
+		ArrayList<String> lore = new ArrayList<String>();
+		lore.add(ChatColor.RESET+""+ChatColor.GRAY+s1);
+		lore.add(ChatColor.RESET+""+ChatColor.GRAY+s2);
+		lore.add(ChatColor.RESET+""+ChatColor.GRAY+s3);
+		lore.add(ChatColor.RESET+""+ChatColor.GRAY+s4);
+		meta.setLore(lore);
+		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+		meta.addEnchant(Enchantment.FROST_WALKER, 1, true);
+		item.setItemMeta(meta);
+		return item;
 	}
 
 	public static void inverror(String error, Player player) {
