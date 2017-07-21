@@ -61,6 +61,7 @@ public final class InteractListener implements Listener {
 				kg = "sssssssssssssssssssssssssssssss";
 			}
 			Boolean perm = player.hasPermission("migs.admin");
+			Boolean perm1 = player.hasPermission("migs.main");
 			if (kg.length()<16) {
 				Location chloc = new Location(blockw, xdif + blockx, blocky, zdif + blockz);
 				if (event.getClickedBlock().getType() == Material.WALL_SIGN) {
@@ -164,7 +165,7 @@ public final class InteractListener implements Listener {
 								}
 							}
 						} else {
-							if (event.getMaterial()==Material.WOOD_HOE) {
+							if (event.getMaterial()==Material.WOOD_HOE && perm1) {
 								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", player.getUniqueId().toString());

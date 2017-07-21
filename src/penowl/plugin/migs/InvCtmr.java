@@ -63,13 +63,22 @@ public class InvCtmr extends JavaPlugin {
 	}
 
 	public boolean onCommand(CommandSender sender, Command command, String flag, String[] args){
+		Boolean perm = false;
+		Boolean perm1 = false;
+		Boolean perm2 = false;
+		if (sender instanceof Player) {
+			Player player = (Player) sender;
+			perm = player.hasPermission("migs.set");
+			perm1 = player.hasPermission("migs.get");
+			perm2 = player.hasPermission("migs.admin");
+		}
 		if(command.getName().equalsIgnoreCase("migs")){
 			if (args.length>0) {
-				if (args[0].compareTo("reload")==0) {
+				if (args[0].compareTo("reload")==0&&perm2) {
 					getConfig();
 					Bukkit.broadcastMessage(ChatColor.GREEN + "[MIGS] " + ChatColor.RESET+"Reloaded shops.");
 					return true;
-				} else if ((args[0].compareTo("inspect")==0 || args[0].compareTo("is")==0) && args.length > 1) {
+				} else if ((args[0].compareTo("inspect")==0 || args[0].compareTo("is")==0) && args.length > 1 &&perm) {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
 						int blockx = player.getTargetBlock((Set<Material>) null, 10).getLocation().getBlockX();
@@ -80,7 +89,7 @@ public class InvCtmr extends JavaPlugin {
 						player.sendMessage(InvManagement.$migs+this.getConfig().getString(configloc+"."+args[1]));
 					}
 					return true;
-				} else if ((args[0].compareTo("set")==0 || args[0].compareTo("set")==0) && args.length > 3) {
+				} else if ((args[0].compareTo("set")==0 || args[0].compareTo("set")==0) && args.length > 3 &&perm1) {
 					if (sender instanceof Player) {
 						Player player = (Player) sender;
 						int blockx = player.getTargetBlock((Set<Material>) null, 10).getLocation().getBlockX();

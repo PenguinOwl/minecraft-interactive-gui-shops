@@ -41,13 +41,13 @@ public class InvManagement {
 		setName(item,name);
 		return item;
 	}
-	
-	public static double round(double value, int places) {
-	    if (places < 0) throw new IllegalArgumentException();
 
-	    BigDecimal bd = new BigDecimal(value);
-	    bd = bd.setScale(places, RoundingMode.HALF_UP);
-	    return bd.doubleValue();
+	public static double round(double value, int places) {
+		if (places < 0) throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
 	}
 
 	public static ItemStack setName(ItemStack items, String name){
@@ -188,9 +188,23 @@ public class InvManagement {
 		}
 		Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
 		ItemStack selling = fetchCurItem(chestloc);
-		temp.setItem(4, taa(selling, 8));
-		temp.setItem(5, taa(selling, 64));
-		temp.setItem(3, taa(selling, 1));
+		Chest chdata = (Chest) chestloc.getBlock().getState();
+		Inventory chest = chdata.getBlockInventory();
+		if (getSpace(chest,selling)>=8) {
+			temp.setItem(4, taa(selling, 8));
+		} else {
+			temp.setItem(4, mmai(Material.BARRIER,1,(short) 0,"Not enough space"));
+		}
+		if (getSpace(chest,selling)>=64) {
+			temp.setItem(5, taa(selling, 64));
+		} else {
+			temp.setItem(5, mmai(Material.BARRIER,1,(short) 0,"Not enough space"));
+		}
+		if (getSpace(chest,selling)>=1) {
+			temp.setItem(3, taa(selling, 1));
+		} else {
+			temp.setItem(3, mmai(Material.BARRIER,1,(short) 0,"Not enough space"));
+		}
 		temp.setItem(0, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price"))));
 		temp.setItem(12, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*1)));
 		temp.setItem(13, mmai(Material.DOUBLE_PLANT, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Value: " + String.valueOf(plugin.getConfig().getDouble(configloc + ".price")*8)));
@@ -205,6 +219,18 @@ public class InvManagement {
 		} else {
 			return mmai(Material.WOOL, 1, (short) 14, ChatColor.RESET + "" + ChatColor.RED + "FALSE");
 		}
+	}
+
+	public static int getSpace(Inventory inventory, ItemStack cur) {
+		int count = 0;
+		for(int x = 0; x < inventory.getSize(); x++) {
+			if (inventory.getItem(x)==null) {
+				count = count + cur.getMaxStackSize();
+			} else if (inventory.getItem(x).isSimilar(cur)) {
+				count = count + cur.getMaxStackSize() - inventory.getItem(x).getAmount();
+			}
+		}
+		return count;
 	}
 
 	public static ItemStack sbwool(boolean bln) {
@@ -246,13 +272,14 @@ public class InvManagement {
 		return suc;
 	}
 
-	public boolean onCommand(CommandSender sender, Command command, String commandLabel, String[] args){
-		if(command.getName().equalsIgnoreCase("masterinv")){
-			Player player = (Player) sender;
-			player.openInventory(createOwnerInventory(player.getWorld(),0,0,0));
-			return true;
+	public static void inverror(String error, Player player) {
+		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "ERROR"); 
+		for(int x = 0; x < 18; x = x + 1) {
+			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14),error);
+			temp.setItem(x, blank);
 		}
-		return false;
+		player.closeInventory();
+		player.openInventory(temp);
 	}
 
 }

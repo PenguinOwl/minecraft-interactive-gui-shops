@@ -43,8 +43,10 @@ public final class ClickListener implements Listener {
 		int z = loc.getBlockZ();
 		Boolean nonadmin = false;
 		String configloc = "shops."+String.valueOf(w)+"."+String.valueOf(x)+"."+String.valueOf(y)+"."+String.valueOf(z);
-		if (inventory.getHolder() instanceof FakeHolder) {
-			nonadmin = plugin.getConfig().getString(configloc+".owner").length() > 16;
+		if (inventory.getHolder() != null) {
+			if (inventory.getHolder() instanceof FakeHolder) {
+				nonadmin = plugin.getConfig().getString(configloc+".owner").length() > 16;
+			}
 		}
 		if (inventory.getHolder() != null) {
 			if (inventory.getName().equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
@@ -105,7 +107,8 @@ public final class ClickListener implements Listener {
 				Boolean work = true;
 				Chest chs = (Chest) chest.getState();
 				Inventory sc = chs.getBlockInventory();
-				if (slot == 3 && clicked.getType() != Material.BARRIER) {
+				Boolean refresh = true;
+				if (slot == 3) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= plugin.getConfig().getDouble(configloc+".price")) {
 						if (nonadmin) {
 							work = InvManagement.removeItems(clicked, 1, sc, 27);
@@ -117,9 +120,12 @@ public final class ClickListener implements Listener {
 							}
 							player.getInventory().addItem(clicked);
 						}
+					} else {
+						InvManagement.inverror("Not enough money", player);
+						refresh = false;
 					}
 				}
-				if (slot == 4 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+				if (slot == 4) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getDouble(configloc+".price")*8) {
 						if (nonadmin) {
 							work = InvManagement.removeItems(clicked, 8, sc, 27);
@@ -131,9 +137,12 @@ public final class ClickListener implements Listener {
 							}
 							player.getInventory().addItem(clicked);
 						}
+					} else {
+						InvManagement.inverror("Not enough money", player);
+						refresh = false;
 					}
 				}
-				if (slot == 5 && clicked.getType() != Material.STAINED_GLASS_PANE) {
+				if (slot == 5) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= (double) plugin.getConfig().getDouble(configloc+".price")*64) {
 						if (nonadmin) {
 							work = InvManagement.removeItems(clicked, 64, sc, 27);
@@ -145,18 +154,27 @@ public final class ClickListener implements Listener {
 							}
 							player.getInventory().addItem(clicked);
 						}
+					} else {
+						InvManagement.inverror("Not enough money", player);
+						refresh = false;
 					}
 				}
 
-				inventory = InvManagement.createCustomerInventory(w,x,y,z);
-				player.closeInventory();
-				player.openInventory(inventory);
+				if (refresh) {
+					inventory = InvManagement.createCustomerInventory(w,x,y,z);
+					player.closeInventory();
+					player.openInventory(inventory);
+				}
 			}
+		}
+		if (inventory.getName().equals("ERROR") && inventory.getHolder() instanceof FakeHolder) {
+			event.setCancelled(true);
 		}
 		if (inventory.getName().equals("Seller Interface") && inventory.getHolder() instanceof FakeHolder) { 
 			Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 			Chest chs = (Chest) chest.getState();
 			event.setCancelled(true);
+			Boolean refresh = true;
 			if (slot == 3 && clicked.getType() != Material.BARRIER) {
 				if (nonadmin) {
 					if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getDouble(configloc+".price")) {
@@ -170,6 +188,9 @@ public final class ClickListener implements Listener {
 								chs.getBlockInventory().addItem(clicked);
 							}
 						}
+					} else {
+						InvManagement.inverror("Owner is broke", player);
+						refresh = false;
 					}
 				} else {
 					Boolean work = InvManagement.removeItems(clicked, 1, player.getInventory(), 36);
@@ -185,6 +206,9 @@ public final class ClickListener implements Listener {
 						if (work) {
 							InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*8);
 						}
+					} else {
+						InvManagement.inverror("Owner is broke", player);
+						refresh = false;
 					}
 				} else {
 					Boolean work = InvManagement.removeItems(clicked, 8, player.getInventory(), 36);
@@ -200,6 +224,9 @@ public final class ClickListener implements Listener {
 						if (work) {
 							InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*64);
 						}
+					} else {
+						InvManagement.inverror("Owner is broke", player);
+						refresh = false;
 					}
 				} else {
 					Boolean work = InvManagement.removeItems(clicked, 64, player.getInventory(), 36);
@@ -209,9 +236,11 @@ public final class ClickListener implements Listener {
 				}
 			}
 
-			inventory = InvManagement.createSellerInventory(w,x,y,z,player);
-			player.closeInventory();
-			player.openInventory(inventory);
+			if (refresh) {
+				inventory = InvManagement.createSellerInventory(w,x,y,z,player);
+				player.closeInventory();
+				player.openInventory(inventory);
+			}
 		}
 	}
 }
