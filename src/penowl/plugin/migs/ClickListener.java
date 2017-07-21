@@ -50,13 +50,13 @@ public final class ClickListener implements Listener {
 			if (inventory.getName().equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
 				event.setCancelled(true);
 				if (event.isLeftClick()) {
-					if (slot == 28 || plugin.getConfig().getDouble(configloc+".price") >= 1.00) {
+					if (slot == 28 && plugin.getConfig().getDouble(configloc+".price") >= 1.00) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-1.00, 2));
 					}
-					if (slot == 29 || plugin.getConfig().getDouble(configloc+".price") >= 10.00) {
+					if (slot == 29 && plugin.getConfig().getDouble(configloc+".price") >= 10.00) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-10.00, 2));
 					}
-					if (slot == 30 || plugin.getConfig().getDouble(configloc+".price") >= 50.00) {
+					if (slot == 30 && plugin.getConfig().getDouble(configloc+".price") >= 50.00) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-50.00, 2));
 					}
 					if (slot == 10) {
@@ -69,13 +69,13 @@ public final class ClickListener implements Listener {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")+50.00, 2));
 					}
 				} else {
-					if (slot == 28 || plugin.getConfig().getDouble(configloc+".price") >= 0.01) {
+					if (slot == 28 && plugin.getConfig().getDouble(configloc+".price") >= 0.01) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-0.01, 2));
 					}
-					if (slot == 29 || plugin.getConfig().getDouble(configloc+".price") >= 0.10) {
+					if (slot == 29 && plugin.getConfig().getDouble(configloc+".price") >= 0.10) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-0.10, 2));
 					}
-					if (slot == 30 || plugin.getConfig().getDouble(configloc+".price") >= 0.50) {
+					if (slot == 30 && plugin.getConfig().getDouble(configloc+".price") >= 0.50) {
 						plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-0.50, 2));
 					}
 					if (slot == 10) {
