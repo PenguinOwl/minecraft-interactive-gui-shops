@@ -62,12 +62,12 @@ public class InvManagement {
 
 	public static Inventory createOwnerInventory(World ilw, int ilx, int ily, int ilz) {
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 45, "Owner Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 45, "Owner Interface"); 
 		for(int x = 0; x < 45; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15)," ");
 			temp.setItem(x, blank);
 		}
-		temp.setItem(2, ifbook("Prices","To change prices by major amounts,","right-click.","To change prices by minor amounts,","left-click."));
+		temp.setItem(2, ifbook("Prices","To change prices by major amounts,","left-click.","To change prices by minor amounts,","right-click."));
 		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-1"));
 		temp.setItem(15, ifbook("Buy/Sell","A buy shop will let players buy","the first item in the chest from you.", "A sell shop will let players sell","their items until the chest is full."));
 		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-10"));
@@ -162,7 +162,7 @@ public class InvManagement {
 
 	public static Inventory createCustomerInventory(World ilw, int ilx, int ily, int ilz) {
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "Customer Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 18, "Customer Interface"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 4),"BUY");
 			temp.setItem(x, blank);
@@ -186,7 +186,7 @@ public class InvManagement {
 
 	public static Inventory createSellerInventory(World ilw, int ilx, int ily, int ilz, Player player) {
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "Seller Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 18, "Seller Interface"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 10),"SELL");
 			temp.setItem(x, blank);
@@ -293,7 +293,7 @@ public class InvManagement {
 	}
 
 	public static void inverror(String error, Player player) {
-		Inventory temp = Bukkit.createInventory(new FakeHolder(), 18, "ERROR"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(null,0,0,0)), 18, "ERROR"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14),error);
 			temp.setItem(x, blank);

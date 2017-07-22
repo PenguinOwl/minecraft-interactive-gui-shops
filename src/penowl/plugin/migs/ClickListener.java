@@ -36,7 +36,10 @@ public final class ClickListener implements Listener {
 		Inventory inventory = event.getClickedInventory();
 		Player player = (Player) event.getWhoClicked();
 		int slot = event.getSlot();
-		Location loc = player.getTargetBlock((Set<Material>) null, 10).getLocation();
+		Location loc = null;
+		if (inventory.getHolder() instanceof FakeHolder) {
+			loc = ((FakeHolder) inventory.getHolder()).getLoc();
+		}
 		World w = loc.getWorld();
 		int x = loc.getBlockX();
 		int y = loc.getBlockY();
@@ -97,9 +100,7 @@ public final class ClickListener implements Listener {
 						plugin.getConfig().set(configloc+".buy", true);
 					}
 				}
-				inventory = InvManagement.createOwnerInventory(w,x,y,z);
-				player.closeInventory();
-				player.openInventory(inventory);
+				inventory.setContents(InvManagement.createOwnerInventory(w,x,y,z).getContents());
 			}
 			if (inventory.getName().equals("Customer Interface") && inventory.getHolder() instanceof FakeHolder) { 
 				Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
@@ -161,9 +162,7 @@ public final class ClickListener implements Listener {
 				}
 
 				if (refresh) {
-					inventory = InvManagement.createCustomerInventory(w,x,y,z);
-					player.closeInventory();
-					player.openInventory(inventory);
+					inventory.setContents(InvManagement.createCustomerInventory(w,x,y,z).getContents());
 				}
 			}
 		}
@@ -237,9 +236,7 @@ public final class ClickListener implements Listener {
 			}
 
 			if (refresh) {
-				inventory = InvManagement.createSellerInventory(w,x,y,z,player);
-				player.closeInventory();
-				player.openInventory(inventory);
+				inventory.setContents(InvManagement.createSellerInventory(w,x,y,z,player).getContents());
 			}
 		}
 	}
