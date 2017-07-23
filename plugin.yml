@@ -1,6 +1,6 @@
 main: penowl.plugin.migs.InvCtmr
 name: MIGS
-version: 1.8.3
+version: 1.8.4
 author: PenguinOwl
 description: An Ecomomy plugin that allows player to make easy shops from signs and chests
 depends: [Vault]
