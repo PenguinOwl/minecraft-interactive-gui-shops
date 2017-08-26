@@ -3,6 +3,7 @@ package penowl.plugin.migs;
 import java.util.Set;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -22,7 +23,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import net.md_5.bungee.api.ChatColor;
 import net.milkbowl.vault.economy.Economy;
 import penowl.plugin.migs.Updater.UpdateResult;
 import penowl.plugin.migs.Updater.UpdateType;
@@ -57,10 +57,13 @@ public class InvCtmr extends JavaPlugin {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info( "A wild " + pdfFile.getName() + " version " + pdfFile.getVersion() + " appeared!" );
 		setupEconomy();
+		if (this.getConfig().getString("auto-updater")==null) {
+			this.saveDefaultConfig();
+		}
 		if (this.getConfig().getBoolean("auto-update")) {
 			Updater updater = new Updater(this, 272481, this.getFile(), UpdateType.DEFAULT, true);
 			if (updater.getResult() == UpdateResult.SUCCESS) {
-			    this.getLogger().info("Downloaded " + updater.getLatestName() + ". Restart or reload your server to use.");
+				this.getLogger().info("Downloaded " + updater.getLatestName() + ". Restart or reload your server to use.");
 			}
 		}
 	}
@@ -74,16 +77,19 @@ public class InvCtmr extends JavaPlugin {
 		Boolean perm = false;
 		Boolean perm1 = false;
 		Boolean perm2 = false;
+		Boolean console = false;
 		if (sender instanceof Player) {
 			Player player = (Player) sender;
 			perm = player.hasPermission("migs.set");
 			perm1 = player.hasPermission("migs.get");
 			perm2 = player.hasPermission("migs.admin");
+		} else {
+			console = true;
 		}
 		if(command.getName().equalsIgnoreCase("migs")){
 			if (args.length>0) {
-				if (args[0].compareTo("reload")==0&&perm2) {
-					getConfig();
+				if (args[0].compareTo("reload")==0&&(perm2||console)) {
+					this.reloadConfig();
 					Bukkit.broadcastMessage(ChatColor.GREEN + "[MIGS] " + ChatColor.RESET+"Reloaded shops.");
 					return true;
 				} else if ((args[0].compareTo("inspect")==0 || args[0].compareTo("is")==0) && args.length > 1 &&perm) {

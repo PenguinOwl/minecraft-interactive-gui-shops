@@ -6,10 +6,8 @@ shops:
         0:
           owner: PenguinOwl
           price: 10
-          filter: true
           buy: true
-          alerts: false
-          chestw: lol
+          chestw: lolz
           chestx: 0
           chesty: 0
           chestz: 0

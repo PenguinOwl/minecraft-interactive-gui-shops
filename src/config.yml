@@ -1,0 +1,15 @@
+auto-update: true
+shops:
+  world: 
+    0:
+      0:
+        0:
+          owner: PenguinOwl
+          price: 10
+          buy: true
+          chestw: lolz
+          chestx: 0
+          chesty: 0
+          chestz: 0
+          enabled: false
+        

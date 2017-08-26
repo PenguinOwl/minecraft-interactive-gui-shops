@@ -107,9 +107,7 @@ public final class InteractListener implements Listener {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", "admin");
 									plugin.getConfig().set(configloc+".price", 0.00);
-									plugin.getConfig().set(configloc+".filter", false);
 									plugin.getConfig().set(configloc+".buy", true);
-									plugin.getConfig().set(configloc+".alerts", false);
 									plugin.getConfig().set(configloc+".chestx", xdif + blockx);
 									plugin.getConfig().set(configloc+".chestz", zdif + blockz);
 									plugin.getConfig().set(configloc+".chesty", blocky);
