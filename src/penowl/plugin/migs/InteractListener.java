@@ -75,7 +75,7 @@ public final class InteractListener implements Listener {
 									wop.update(true,false);
 									player.sendMessage(InvManagement.$migs + "Shop destroyed.");
 									plugin.saveConfig();
-								} else if(event.getMaterial()==Material.DIAMOND_SPADE) {
+								} else if(event.getMaterial()==Material.DIAMOND_SHOVEL) {
 									if (plugin.getConfig().getBoolean(configloc+".enabled")) {
 										plugin.getConfig().set(configloc+".enabled",false);
 										org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
@@ -129,14 +129,14 @@ public final class InteractListener implements Listener {
 					if (event.getMaterial() != null) {
 						if (plugin.getConfig().getString(configloc+".owner") != null) {
 							if (plugin.getConfig().getString(configloc+".owner").compareTo(player.getUniqueId().toString()) == 0 && player.isSneaking() == false) {
-								if (event.getMaterial()==Material.WOOD_HOE) {
+								if (event.getMaterial()==Material.WOODEN_HOE) {
 									plugin.getConfig().set(configloc+".owner", null);
 									org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
 									wop.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[SHOP]");
 									wop.update(true,false);
 									player.sendMessage(InvManagement.$migs + "Shop destroyed.");
 									plugin.saveConfig();
-								} else if(event.getMaterial()==Material.WOOD_SPADE) {
+								} else if(event.getMaterial()==Material.WOODEN_SHOVEL) {
 									if (plugin.getConfig().getBoolean(configloc+".enabled")) {
 										plugin.getConfig().set(configloc+".enabled",false);
 										org.bukkit.block.Sign wop = (org.bukkit.block.Sign) event.getClickedBlock().getState();
@@ -163,7 +163,7 @@ public final class InteractListener implements Listener {
 								}
 							}
 						} else {
-							if (event.getMaterial()==Material.WOOD_HOE && perm1) {
+							if (event.getMaterial()==Material.WOODEN_HOE && perm1) {
 								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", player.getUniqueId().toString());

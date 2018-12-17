@@ -35,6 +35,7 @@ public final class ClickListener implements Listener {
 		if (event.getClickedInventory() != null) {
 			if (event.getClickedInventory().getHolder() != null) {
 				if (event.getClickedInventory().getHolder() instanceof FakeHolder) {
+					event.setCancelled(true);
 					ItemStack clicked = event.getCurrentItem();
 					Inventory inventory = event.getClickedInventory();
 					Player player = (Player) event.getWhoClicked();
@@ -169,7 +170,7 @@ public final class ClickListener implements Listener {
 							}
 						}
 					}
-					if (inventory.getName().equals("ERROR") && inventory.getHolder() instanceof FakeHolder) {
+					if (inventory.getName().equals("Error") && inventory.getHolder() instanceof FakeHolder) {
 						event.setCancelled(true);
 					}
 					if (inventory.getName().equals("Seller Interface") && inventory.getHolder() instanceof FakeHolder) { 
