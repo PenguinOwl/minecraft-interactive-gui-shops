@@ -2,7 +2,7 @@
 <project name="Minecraft Interactive GUI Shops" default="makejar" basedir=".">
     <target name="makejar" description="Create a jar for the project">
         <mkdir dir="target"></mkdir>
-        <jar destfile="target/MIGS.jar">
+        <jar destfile="target/MIGS_v10.jar">
             <fileset dir="bin"></fileset>
             <fileset file="plugin.yml"></fileset>
         </jar>
