@@ -1,13 +1,18 @@
 package penowl.plugin.migs;
 import org.bukkit.event.Listener;
 
+import java.text.DecimalFormat;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Instrument;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Note;
+import org.bukkit.Note.Tone;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
@@ -113,6 +118,7 @@ public final class ClickListener implements Listener {
 							Chest chs = (Chest) chest.getState();
 							Inventory sc = chs.getBlockInventory();
 							Boolean refresh = true;
+							DecimalFormat df = new DecimalFormat("#0.00");
 							if (slot == 3) {
 								if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(player.getUniqueId())) >= plugin.getConfig().getDouble(configloc+".price")) {
 									if (nonadmin) {
@@ -123,6 +129,8 @@ public final class ClickListener implements Listener {
 										if (nonadmin) {
 											InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getDouble(configloc+".price"));
 										}
+										player.playNote(player.getLocation(), Instrument.PIANO, Note.natural(0, Tone.C));
+										player.sendMessage(ChatColor.AQUA+"Bought "+ChatColor.GREEN+"1 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.AQUA+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*1));
 										player.getInventory().addItem(clicked);
 									}
 								} else {
@@ -141,6 +149,8 @@ public final class ClickListener implements Listener {
 											InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getDouble(configloc+".price")*8);
 										}
 										player.getInventory().addItem(clicked);
+										player.playNote(player.getLocation(), Instrument.PIANO, Note.natural(0, Tone.C));
+										player.sendMessage(ChatColor.AQUA+"Bought "+ChatColor.GREEN+"8 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.AQUA+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*8));
 									}
 								} else {
 									InvManagement.inverror("Not enough money", player);
@@ -157,6 +167,8 @@ public final class ClickListener implements Listener {
 										if (nonadmin) {
 											InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getDouble(configloc+".price")*64);
 										}
+										player.playNote(player.getLocation(), Instrument.PIANO, Note.natural(0, Tone.C));
+										player.sendMessage(ChatColor.AQUA+"Bought "+ChatColor.GREEN+"64 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.AQUA+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*64));
 										player.getInventory().addItem(clicked);
 									}
 								} else {
@@ -178,18 +190,15 @@ public final class ClickListener implements Listener {
 						Chest chs = (Chest) chest.getState();
 						event.setCancelled(true);
 						Boolean refresh = true;
+						DecimalFormat df = new DecimalFormat("#0.00");
 						if (slot == 3 && clicked.getType() != Material.BARRIER) {
 							if (nonadmin) {
-								if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getDouble(configloc+".price")) {
+								if (InvCtmr.economy.getBalance(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner")))) >= (double) plugin.getConfig().getDouble(configloc+".price")*1) {
 									Boolean work = InvManagement.removeItems(clicked, 1, player.getInventory(), 36);
 									if (work) {
-										InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price"));
-										if (nonadmin) {
-											InvCtmr.economy.withdrawPlayer(Bukkit.getOfflinePlayer(UUID.fromString(plugin.getConfig().getString(configloc+".owner"))), plugin.getConfig().getDouble(configloc+".price"));
-										}
-										if (nonadmin) {
-											chs.getBlockInventory().addItem(clicked);
-										}
+										InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*1);
+										player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+										player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"1 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*1));
 									}
 								} else {
 									InvManagement.inverror("Owner does not have enough money", player);
@@ -199,6 +208,8 @@ public final class ClickListener implements Listener {
 								Boolean work = InvManagement.removeItems(clicked, 1, player.getInventory(), 36);
 								if (work) {
 									InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*1);
+									player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+									player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"1 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*1));
 								}
 							}
 						}
@@ -208,6 +219,8 @@ public final class ClickListener implements Listener {
 									Boolean work = InvManagement.removeItems(clicked, 8, player.getInventory(), 36);
 									if (work) {
 										InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*8);
+										player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+										player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"8 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*8));
 									}
 								} else {
 									InvManagement.inverror("Owner does not have enough money", player);
@@ -217,6 +230,8 @@ public final class ClickListener implements Listener {
 								Boolean work = InvManagement.removeItems(clicked, 8, player.getInventory(), 36);
 								if (work) {
 									InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*8);
+									player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+									player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"8 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*8));
 								}
 							}
 						}
@@ -226,6 +241,8 @@ public final class ClickListener implements Listener {
 									Boolean work = InvManagement.removeItems(clicked, 64, player.getInventory(), 36);
 									if (work) {
 										InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*64);
+										player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+										player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"64 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*64));
 									}
 								} else {
 									InvManagement.inverror("Owner does not have enough money", player);
@@ -235,6 +252,8 @@ public final class ClickListener implements Listener {
 								Boolean work = InvManagement.removeItems(clicked, 64, player.getInventory(), 36);
 								if (work) {
 									InvCtmr.economy.depositPlayer(Bukkit.getOfflinePlayer(player.getUniqueId()), plugin.getConfig().getDouble(configloc+".price")*64);
+									player.playNote(player.getLocation(), Instrument.BELL, Note.natural(0, Tone.F));
+									player.sendMessage(ChatColor.LIGHT_PURPLE+"Sold "+ChatColor.GREEN+"64 "+ChatColor.RESET+(!clicked.getItemMeta().hasDisplayName() ? clicked.getType().name().replace("_", " ").toLowerCase() : clicked.getItemMeta().getDisplayName())+ChatColor.RESET+ChatColor.LIGHT_PURPLE+" for "+ChatColor.YELLOW+df.format(plugin.getConfig().getDouble(configloc+".price")*64));
 								}
 							}
 						}
