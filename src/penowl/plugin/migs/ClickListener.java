@@ -58,7 +58,7 @@ public final class ClickListener implements Listener {
 					if (inventory.getHolder() != null) {
 						if (inventory.getName().equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
 							event.setCancelled(true);
-							if (event.isLeftClick()) {
+							if (!event.isShiftClick()) {
 								if (slot == 28 && plugin.getConfig().getDouble(configloc+".price") >= 1.00) {
 									plugin.getConfig().set(configloc+".price", InvManagement.round(plugin.getConfig().getDouble(configloc+".price")-1.00, 2));
 								}

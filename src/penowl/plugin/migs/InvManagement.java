@@ -67,7 +67,7 @@ public class InvManagement {
 			ItemStack blank = setName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1)," ");
 			temp.setItem(x, blank);
 		}
-		temp.setItem(2, ifbook("Prices","To change prices by major amounts,","left-click.","To change prices by minor amounts,","right-click."));
+		temp.setItem(2, ifbook("Prices","To change prices by major amounts,","left-click.","To change prices by minor amounts,","shift-click."));
 		temp.setItem(28, mmai(Material.HOPPER, 1, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-1"));
 		temp.setItem(15, ifbook("Buy/Sell","A buy shop will let players buy","the first item in the chest from you.", "A sell shop will let players sell","their items until the chest is full."));
 		temp.setItem(29, mmai(Material.HOPPER, 10, (short) 0, ChatColor.RESET + "" + ChatColor.GREEN + "Price adjust: " + ChatColor.RESET + "-10"));
