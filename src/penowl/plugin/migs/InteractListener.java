@@ -7,8 +7,11 @@ import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Directional;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventException;
 import org.bukkit.event.EventHandler;
@@ -32,6 +35,8 @@ public final class InteractListener implements Listener {
 
 	@EventHandler
 	public void someoneBlocked(PlayerInteractEvent event) {
+		Block blockBehind = event.getClickedBlock();
+		
 		if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 			int blockx = event.getClickedBlock().getLocation().getBlockX();
 			int blocky = event.getClickedBlock().getLocation().getBlockY();
@@ -41,19 +46,26 @@ public final class InteractListener implements Listener {
 			String configloc = "shops."+String.valueOf(blockw)+"."+String.valueOf(blockx)+"."+String.valueOf(blocky)+"."+String.valueOf(blockz);
 			int xdif = 0;
 			int zdif = 0;
-			if (event.getClickedBlock().getType() == Material.WALL_SIGN) {
-				org.bukkit.material.Sign com = (org.bukkit.material.Sign) event.getClickedBlock().getState().getData();
-				BlockFace sa = com.getAttachedFace();
-				if (sa == BlockFace.NORTH) {
-					zdif = -1;
-				} else if (sa == BlockFace.SOUTH) {
-					zdif = 1;
-				} else if (sa == BlockFace.EAST) {
-					xdif = 1;
-				} else if (sa == BlockFace.WEST) {
-					xdif = -1;
-				} else {
-
+			if (
+					
+					event.getClickedBlock().getType() == Material.ACACIA_WALL_SIGN ||
+					event.getClickedBlock().getType() == Material.BIRCH_WALL_SIGN ||
+					event.getClickedBlock().getType() == Material.DARK_OAK_WALL_SIGN ||
+					event.getClickedBlock().getType() == Material.JUNGLE_WALL_SIGN ||
+					event.getClickedBlock().getType() == Material.OAK_WALL_SIGN ||
+					event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN
+					
+				) {
+				
+				Block block = event.getClickedBlock();
+				if (block != null && block.getState() instanceof Sign)
+				{
+				    BlockData data = block.getBlockData();
+				    if (data instanceof Directional)
+				    {
+				        Directional directional = (Directional)data;
+				        blockBehind = block.getRelative(directional.getFacing().getOppositeFace());
+				    }
 				}
 			}
 			String kg = plugin.getConfig().getString(configloc+".owner");
@@ -63,8 +75,17 @@ public final class InteractListener implements Listener {
 			Boolean perm = player.hasPermission("migs.admin");
 			Boolean perm1 = player.hasPermission("migs.main");
 			if (kg.length()<16) {
-				Location chloc = new Location(blockw, xdif + blockx, blocky, zdif + blockz);
-				if (event.getClickedBlock().getType() == Material.WALL_SIGN) {
+				Location chloc = blockBehind.getLocation();
+				if (
+						
+						event.getClickedBlock().getType() == Material.ACACIA_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.BIRCH_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.DARK_OAK_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.JUNGLE_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.OAK_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN
+						
+					) {
 					if (event.getMaterial() != null) {
 						if (plugin.getConfig().getString(configloc+".owner") != null) {
 							if (perm && player.isSneaking() == false) {
@@ -124,8 +145,17 @@ public final class InteractListener implements Listener {
 					}
 				}
 			} else {
-				Location chloc = new Location(blockw, xdif + blockx, blocky, zdif + blockz);
-				if (event.getClickedBlock().getType() == Material.WALL_SIGN) {
+				Location chloc = blockBehind.getLocation();
+				if (
+						
+						event.getClickedBlock().getType() == Material.ACACIA_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.BIRCH_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.DARK_OAK_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.JUNGLE_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.OAK_WALL_SIGN ||
+						event.getClickedBlock().getType() == Material.SPRUCE_WALL_SIGN
+						
+					) {
 					if (event.getMaterial() != null) {
 						if (plugin.getConfig().getString(configloc+".owner") != null) {
 							if (plugin.getConfig().getString(configloc+".owner").compareTo(player.getUniqueId().toString()) == 0 && player.isSneaking() == false) {

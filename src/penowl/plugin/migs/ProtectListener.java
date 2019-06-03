@@ -21,7 +21,16 @@ public class ProtectListener implements Listener {
 	
 	@EventHandler
 	public void onBreak(BlockBreakEvent event) {
-		if (event.getBlock().getType() == Material.WALL_SIGN) {
+		if (
+				
+				event.getBlock().getType() == Material.ACACIA_WALL_SIGN ||
+				event.getBlock().getType() == Material.BIRCH_WALL_SIGN ||
+				event.getBlock().getType() == Material.DARK_OAK_WALL_SIGN ||
+				event.getBlock().getType() == Material.JUNGLE_WALL_SIGN ||
+				event.getBlock().getType() == Material.OAK_WALL_SIGN ||
+				event.getBlock().getType() == Material.SPRUCE_WALL_SIGN
+				
+			) {
 			Location loc = event.getBlock().getLocation();
 			String configloc = "shops."+String.valueOf(loc.getWorld())+"."+String.valueOf(loc.getBlockX())+"."+String.valueOf(loc.getBlockY())+"."+String.valueOf(loc.getBlockZ());
 			if (plugin.getConfig().getString(configloc+".owner") != null) {

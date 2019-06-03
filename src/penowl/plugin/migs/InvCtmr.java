@@ -24,9 +24,6 @@ import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import net.milkbowl.vault.economy.Economy;
-import penowl.plugin.migs.Updater.UpdateResult;
-import penowl.plugin.migs.Updater.UpdateType;
-
 
 @SuppressWarnings("unused")
 public class InvCtmr extends JavaPlugin {
@@ -59,12 +56,6 @@ public class InvCtmr extends JavaPlugin {
 		setupEconomy();
 		if (this.getConfig().getString("auto-updater")==null) {
 			this.saveDefaultConfig();
-		}
-		if (this.getConfig().getBoolean("auto-update")) {
-			Updater updater = new Updater(this, 272481, this.getFile(), UpdateType.DEFAULT, true);
-			if (updater.getResult() == UpdateResult.SUCCESS) {
-				this.getLogger().info("Downloaded " + updater.getLatestName() + ". Restart or reload your server to use.");
-			}
 		}
 	}
 

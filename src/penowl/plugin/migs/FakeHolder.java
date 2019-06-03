@@ -7,6 +7,7 @@ import org.bukkit.inventory.InventoryHolder;
 public class FakeHolder implements InventoryHolder{
 	
 	public Location grl = null;
+	public String name = null;
 	
 	@Override
     public Inventory getInventory() {
@@ -21,8 +22,10 @@ public class FakeHolder implements InventoryHolder{
 		return grl;
 	}
 	
-	public FakeHolder(Location loc) {
+	public FakeHolder(Location loc, String tag) {
 		grl = loc;
+		name = tag;
+		
 	}
 	
 }

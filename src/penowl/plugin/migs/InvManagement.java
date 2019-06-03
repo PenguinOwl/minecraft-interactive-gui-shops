@@ -62,7 +62,7 @@ public class InvManagement {
 	public static Inventory createOwnerInventory(World ilw, int ilx, int ily, int ilz) {
 		DecimalFormat df = new DecimalFormat("#0.00");
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 45, "Owner Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz), "Owner Interface"), 45, "Owner Interface"); 
 		for(int x = 0; x < 45; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.BLACK_STAINED_GLASS_PANE, 1)," ");
 			temp.setItem(x, blank);
@@ -164,7 +164,7 @@ public class InvManagement {
 	public static Inventory createCustomerInventory(World ilw, int ilx, int ily, int ilz) {
 		DecimalFormat df = new DecimalFormat("#0.00");
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 18, "Customer Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz), "Customer Interface"), 18, "Customer Interface"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.YELLOW_STAINED_GLASS_PANE, 1),"BUY");
 			temp.setItem(x, blank);
@@ -189,7 +189,7 @@ public class InvManagement {
 	public static Inventory createSellerInventory(World ilw, int ilx, int ily, int ilz, Player player) {
 		DecimalFormat df = new DecimalFormat("#0.00");
 		String configloc = "shops."+String.valueOf(ilw)+"."+String.valueOf(ilx)+"."+String.valueOf(ily)+"."+String.valueOf(ilz);
-		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz)), 18, "Seller Interface"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(ilw,ilx,ily,ilz), "Seller Interface"), 18, "Seller Interface"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.PURPLE_STAINED_GLASS_PANE, 1),"SELL");
 			temp.setItem(x, blank);
@@ -296,7 +296,7 @@ public class InvManagement {
 	}
 
 	public static void inverror(String error, Player player) {
-		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(null,0,0,0)), 18, "Error"); 
+		Inventory temp = Bukkit.createInventory(new FakeHolder(new Location(null,0,0,0), "Error"), 18, "Error"); 
 		for(int x = 0; x < 18; x = x + 1) {
 			ItemStack blank = setName(new ItemStack(Material.RED_STAINED_GLASS_PANE, 1),error);
 			temp.setItem(x, blank);

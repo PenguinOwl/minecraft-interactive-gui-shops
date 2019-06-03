@@ -61,7 +61,7 @@ public final class ClickListener implements Listener {
 						}
 					}
 					if (inventory.getHolder() != null) {
-						if (inventory.getName().equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
+						if (((FakeHolder)inventory.getHolder()).name.equals("Owner Interface") && inventory.getHolder() instanceof FakeHolder) { 
 							event.setCancelled(true);
 							if (!event.isShiftClick()) {
 								if (slot == 28 && plugin.getConfig().getDouble(configloc+".price") >= 1.00) {
@@ -111,7 +111,7 @@ public final class ClickListener implements Listener {
 							}
 							inventory.setContents(InvManagement.createOwnerInventory(w,x,y,z).getContents());
 						}
-						if (inventory.getName().equals("Customer Interface") && inventory.getHolder() instanceof FakeHolder) { 
+						if (((FakeHolder)inventory.getHolder()).name.equals("Customer Interface") && inventory.getHolder() instanceof FakeHolder) { 
 							Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 							event.setCancelled(true);
 							Boolean work = true;
@@ -182,10 +182,10 @@ public final class ClickListener implements Listener {
 							}
 						}
 					}
-					if (inventory.getName().equals("Error") && inventory.getHolder() instanceof FakeHolder) {
+					if (((FakeHolder)inventory.getHolder()).name.equals("Error") && inventory.getHolder() instanceof FakeHolder) {
 						event.setCancelled(true);
 					}
-					if (inventory.getName().equals("Seller Interface") && inventory.getHolder() instanceof FakeHolder) { 
+					if (((FakeHolder)inventory.getHolder()).name.equals("Seller Interface") && inventory.getHolder() instanceof FakeHolder) { 
 						Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 						Chest chs = (Chest) chest.getState();
 						event.setCancelled(true);
