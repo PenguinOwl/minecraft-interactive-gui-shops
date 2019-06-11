@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.logging.Level;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -12,6 +13,7 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.World;
+import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.command.Command;
@@ -109,9 +111,44 @@ public class InvManagement {
 	public static ItemStack fetchCurItem(Location loc) {
 		Block b = loc.getBlock();
 		ItemStack base = null;
-		if (b.getType() == Material.CHEST||b.getType() == Material.TRAPPED_CHEST) {
-			Chest cht = (Chest) b.getState();
-			Inventory cinv = cht.getBlockInventory();
+		if (b.getState() instanceof Chest) {
+			Inventory cinv;
+			if (loc.getBlock().getState() instanceof Barrel) { 
+				Barrel chdata = (Barrel) loc.getBlock().getState();
+				cinv = chdata.getInventory();
+			} else {
+				Chest chdata = (Chest) loc.getBlock().getState();
+				cinv = chdata.getBlockInventory();
+			}
+			String name = null;
+			ItemStack c = null;
+			for (int scan = 0; scan < 27; scan++) {
+				if ((cinv.getItem(scan) == null || c != null)) {
+				} else {
+					c = cinv.getItem(scan);
+				}
+			}
+			ItemStack[] inv = cinv.getContents();
+
+			int count = 0;
+			for(int i = 0; i < inv.length; i++) {
+				if(inv[i] != null){
+					if(inv[i].isSimilar(c)) {
+						int temp = inv[i].getAmount();
+						count= count + temp;
+					}
+				}
+			}
+			if (c != null) {
+				base = cinv.getItem(cinv.first(c)).clone();
+				base.setAmount(count);
+			} else {
+				base = mmai(Material.BARRIER,1,(short) 0,"Out of stock");
+			}
+		}
+		if (b.getState() instanceof Barrel) {
+			Barrel cht = (Barrel) b.getState();
+			Inventory cinv = cht.getInventory();
 			String name = null;
 			ItemStack c = null;
 			for (int scan = 0; scan < 27; scan++) {
@@ -196,8 +233,14 @@ public class InvManagement {
 		}
 		Location chestloc = new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc + ".chestw")), plugin.getConfig().getInt(configloc + ".chestx"), plugin.getConfig().getInt(configloc + ".chesty"), plugin.getConfig().getInt(configloc + ".chestz"));
 		ItemStack selling = fetchCurItem(chestloc);
-		Chest chdata = (Chest) chestloc.getBlock().getState();
-		Inventory chest = chdata.getBlockInventory();
+		Inventory chest;
+		if (chestloc.getBlock().getState() instanceof Barrel) { 
+			Barrel chdata = (Barrel) chestloc.getBlock().getState();
+			chest = chdata.getInventory();
+		} else {
+			Chest chdata = (Chest) chestloc.getBlock().getState();
+			chest = chdata.getBlockInventory();
+		}
 		if (getSpace(chest,selling)>=8) {
 			temp.setItem(4, taa(selling, 8));
 		} else {

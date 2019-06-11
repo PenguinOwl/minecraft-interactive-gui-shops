@@ -124,13 +124,13 @@ public final class InteractListener implements Listener {
 							}
 						} else {
 							if (event.getMaterial()==Material.DIAMOND_HOE && perm) {
-								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
+								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST || chloc.getBlock().getType()==Material.BARREL) {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", "admin");
 									plugin.getConfig().set(configloc+".price", 0.00);
 									plugin.getConfig().set(configloc+".buy", true);
-									plugin.getConfig().set(configloc+".chestx", xdif + blockx);
-									plugin.getConfig().set(configloc+".chestz", zdif + blockz);
+									plugin.getConfig().set(configloc+".chestx", chloc.getBlockX());
+									plugin.getConfig().set(configloc+".chestz", chloc.getBlockZ());
 									plugin.getConfig().set(configloc+".chesty", blocky);
 									plugin.getConfig().set(configloc+".chestw", blockw.getName());
 									plugin.getConfig().set(configloc+".enabled", true);
@@ -194,15 +194,15 @@ public final class InteractListener implements Listener {
 							}
 						} else {
 							if (event.getMaterial()==Material.WOODEN_HOE && perm1) {
-								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
+								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST || chloc.getBlock().getType()==Material.BARREL) {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", player.getUniqueId().toString());
 									plugin.getConfig().set(configloc+".price", 0.00);
 									plugin.getConfig().set(configloc+".filter", false);
 									plugin.getConfig().set(configloc+".buy", true);
 									plugin.getConfig().set(configloc+".alerts", false);
-									plugin.getConfig().set(configloc+".chestx", xdif + blockx);
-									plugin.getConfig().set(configloc+".chestz", zdif + blockz);
+									plugin.getConfig().set(configloc+".chestx", chloc.getBlockX());
+									plugin.getConfig().set(configloc+".chestz", chloc.getBlockZ());
 									plugin.getConfig().set(configloc+".chesty", blocky);
 									plugin.getConfig().set(configloc+".chestw", blockw.getName());
 									plugin.getConfig().set(configloc+".enabled", true);
@@ -222,15 +222,15 @@ public final class InteractListener implements Listener {
 								plugin.saveConfig();
 							}
 							if (event.getMaterial()==Material.DIAMOND_HOE && perm) {
-								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST) {
+								if (chloc.getBlock().getType()==Material.CHEST || chloc.getBlock().getType()==Material.TRAPPED_CHEST || chloc.getBlock().getType()==Material.BARREL) {
 									player.sendMessage(InvManagement.$migs + "Creating Shop...");
 									plugin.getConfig().set(configloc+".owner", "admin");
 									plugin.getConfig().set(configloc+".price", 0.00);
 									plugin.getConfig().set(configloc+".filter", false);
 									plugin.getConfig().set(configloc+".buy", true);
 									plugin.getConfig().set(configloc+".alerts", false);
-									plugin.getConfig().set(configloc+".chestx", xdif + blockx);
-									plugin.getConfig().set(configloc+".chestz", zdif + blockz);
+									plugin.getConfig().set(configloc+".chestx", chloc.getBlockX());
+									plugin.getConfig().set(configloc+".chestz", chloc.getBlockZ());
 									plugin.getConfig().set(configloc+".chesty", blocky);
 									plugin.getConfig().set(configloc+".chestw", blockw.getName());
 									plugin.getConfig().set(configloc+".enabled", true);

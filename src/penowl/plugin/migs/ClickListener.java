@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.Note;
 import org.bukkit.Note.Tone;
 import org.bukkit.World;
+import org.bukkit.block.Barrel;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
@@ -115,8 +116,14 @@ public final class ClickListener implements Listener {
 							Block chest = (new Location(Bukkit.getWorld(plugin.getConfig().getString(configloc+".chestw")),plugin.getConfig().getInt(configloc+".chestx"),plugin.getConfig().getInt(configloc+".chesty"),plugin.getConfig().getInt(configloc+".chestz"))).getBlock();
 							event.setCancelled(true);
 							Boolean work = true;
-							Chest chs = (Chest) chest.getState();
-							Inventory sc = chs.getBlockInventory();
+							Inventory sc;
+							if (chest.getState() instanceof Barrel) { 
+								Barrel chdata = (Barrel) chest.getState();
+								sc = chdata.getInventory();
+							} else {
+								Chest chdata = (Chest) chest.getState();
+								sc = chdata.getBlockInventory();
+							}
 							Boolean refresh = true;
 							DecimalFormat df = new DecimalFormat("#0.00");
 							if (slot == 3) {
